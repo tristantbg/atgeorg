@@ -1,0 +1,10 @@
+!= snippet('_header')
+
+div#sections
+	section(data-type="landing", data-anchor="landing")
+	each $section in $sections
+		section(data-type=$section->intendedTemplate(), data-anchor=$section->uid(), hide-title=$section->hideSiteTitle()->bool(), question=$section->questionMark()->bool())
+			div.content(style=($section->contentSize()->value() > 0 ? 'width: calc(100% - '.$section->contentSize().'rem)' : ''))
+				!= snippet('_'.$section->intendedTemplate(), array('page' => $section))
+
+!= snippet('_footer')

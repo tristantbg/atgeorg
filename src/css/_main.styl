@@ -1,4 +1,7 @@
-//webfont('Franklin Gothic', 'franklingothic', true, 'normal')
+webfont('F', 'F', false, 'normal')
+webfont('FI', 'FI', false, 'normal')
+webfont('AG', 'AG', false, 'normal')
+webfont('AGI', 'AGI', false, 'normal')
 
 body,html
 	width 100%
@@ -9,26 +12,47 @@ html
 	font-size 62.5%
 
 body
-	font-family Helvetica Neue, Arial, sans-serif
-	font-size 1rem
+	font-family 'AG', Helvetica Neue, Arial, sans-serif
+	font-size ($heading/2)
+	line-height 1
+	color $secondary
 	text-rendering optimizeLegibility
 	font-smoothing()
 
 p
 	margin-bottom 1em
-	line-height 100%
+	line-height 1
 
 p:last-child
 	margin-bottom 0
 
+em
+	font-family 'AGI'
+
+h1, .title, .section-title
+	font-family 'F'
+	font-size $heading
+
+h2, .lead, strong
+	font-family 'F'
+	em
+		font-family 'FI'
+
+.caption, small, .people-text
+	font-size 1.7rem
+
+.people-text
+	strong
+		font-size ($heading/2)
+
 ::selection
-	background $secondary
+	background alpha($secondary, 0.2)
 	
 ::-moz-selection
-	background $secondary
+	background alpha($secondary, 0.2)
 
 *
-	hideselect()
+	//hideselect()
 	box-sizing(border-box)
 
 video::-webkit-media-controls

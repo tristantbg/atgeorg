@@ -4,6 +4,8 @@ module.exports = function(grunt) {
             plugins: {
                 src: [
                 'site/plugins/embed/assets/js/embed.js',
+                'node_modules/fullpage.js/vendors/scrolloverflow.min.js', 
+                'node_modules/fullpage.js/dist/jquery.fullpage.js', 
                 'node_modules/flickity/dist/flickity.pkgd.min.js', 
                 //'node_modules/lazysizes/plugins/object-fit/ls.object-fit.min.js', 
                 //'node_modules/lazysizes/lazysizes.min.js', 
@@ -54,6 +56,7 @@ module.exports = function(grunt) {
               'assets/css/build/build.min.css': 
               ['node_modules/normalize-css/normalize.css', 
               'site/plugins/embed/assets/css/embed.css', 
+              'node_modules/fullpage.js/dist/jquery.fullpage.min.css', 
               'node_modules/flickity/dist/flickity.min.css',
               'assets/css/app.min.css']
             }
@@ -62,7 +65,7 @@ module.exports = function(grunt) {
         watch: {
             js: {
                 files: ['src/js/components/*.js', 'src/js/app.js'],
-                tasks: ['javascript'],
+                tasks: ['concat:js', 'uglify:build'],
                 options: {
                     livereload: true,
                 }

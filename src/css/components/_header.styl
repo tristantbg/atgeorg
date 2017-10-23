@@ -1,0 +1,28 @@
+header
+	transition transform 700ms ease
+	position fixed
+	top ($padding/2)
+	left $padding
+	white-space nowrap
+	display inline-flex
+	z-index 2
+	cursor pointer
+	#site-title
+		order 1
+	.section-title
+		&.before
+			order 0
+		&.after
+			order 2
+		&#question-mark
+			order 3
+	#site-title, .section-title
+		transition width 600ms ease
+		overflow hidden
+		&.hidden
+			width 0 !important
+
+.fp-viewing-landing
+	header
+		transform translateY(300%) translateZ(0)
+		

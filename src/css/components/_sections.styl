@@ -1,0 +1,35 @@
+section
+	.content
+		padding $padding $padding ($heading*3) 0
+		width 50%
+		margin 0 0 0 auto
+	.fp-scroller
+		.content
+			padding-bottom 100vh
+	&[data-type="informations"]
+		.content
+			padding-top ($padding/2)
+		.informations-section:not(:last-child)
+			margin-bottom $heading
+		.paragraph
+			flowing-paragraph(1em)
+			&:not(:last-child)
+				margin-bottom 1em
+	&[data-type="team"]
+		[event-target="people"]
+		.people
+			span(1)
+			h2:first-child
+				cursor pointer
+			&.open
+				.avatar
+					opacity 1
+			.people-text
+				display none
+				flowing-paragraph(2em)
+				&::before
+					content ''
+					display block
+					width .15em
+					height .15em
+			

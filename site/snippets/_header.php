@@ -85,10 +85,7 @@
 
 <div id="main">
 
-	<header>
-		<div id="site-title">
-			<h1><?= $site->title()->html() ?></h1>
-		</div>
-	</header>
+	<?php snippet('_section_title') ?>
+	<?php snippet('_menu') ?>
 
 	<div id="container">

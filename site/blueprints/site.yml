@@ -1,4 +1,10 @@
 title: Site
+pages:
+  template:
+    - default
+    - projects
+    - team
+    - informations
 fields:
   generalSettings:
     label: Site Settings

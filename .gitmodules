@@ -16,3 +16,12 @@
 [submodule "site/plugins/imagekit"]
 	path = site/plugins/imagekit
 	url = https://github.com/fabianmichael/kirby-imagekit.git
+[submodule "site/plugins/typography"]
+	path = site/plugins/typography
+	url = https://github.com/fabianmichael/kirby-typography.git
+[submodule "site/plugins/images"]
+	path = site/plugins/images
+	url = https://github.com/medienbaecker/kirby-images.git
+[submodule "site/plugins/sortable"]
+	path = site/plugins/sortable
+	url = https://github.com/lukaskleinschmidt/kirby-sortable.git

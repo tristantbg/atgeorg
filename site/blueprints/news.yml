@@ -1,6 +1,6 @@
-title: Page
+title: News
 pages: false
-files: true
+files: false
 fields:
   pageInfos:
     label: Page infos

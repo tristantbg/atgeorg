@@ -4,6 +4,50 @@ pages:
   template: project
 deletable: false
 fields:
+  pageInfos:
+    label: Page infos
+    type: tabs
   title:
     label: Title
     type:  text
+    width: 3/4
+  contentSize:
+    label: Offset
+    type: number
+    step: 1
+    min: 0
+    width: 1/4
+    default: 0
+  headerOptions:
+    label: Header Options
+    type: tabs
+  headerTitle:
+    label: Header Text
+    type: text
+  headerPosition:
+    label: Text Position
+    type: radio
+    width: 1/4
+    columns: 1
+    required: true
+    options:
+      before: Before
+      after: After
+  hideSiteTitle:
+    label: Hide Main Title
+    type: toggle
+    default: false
+    width: 1/4
+    required: true
+  headerSpace:
+    label: Add a space
+    type: toggle
+    default: true
+    width: 1/4
+    required: true
+  questionMark:
+    label: With ?
+    type: toggle
+    default: false
+    width: 1/4
+    required: true

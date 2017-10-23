@@ -2,7 +2,7 @@
 
 <div id="page-content" class="projects-list">
 
-	<?php foreach ($projects as $key => $project): ?>
+	<?php foreach ($page->children()->visible() as $key => $project): ?>
 
 		<?php if($project->featured()->isNotEmpty()): ?>
 

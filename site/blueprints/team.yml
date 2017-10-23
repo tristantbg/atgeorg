@@ -1,6 +1,15 @@
-title: Page
-pages: false
-files: true
+title: Team
+pages:
+  template:
+    - people
+  num:
+    mode: default
+    display: null
+  max: null
+  limit: 20
+  sort: false
+  hide: false
+files: false
 fields:
   pageInfos:
     label: Page infos
@@ -16,9 +25,17 @@ fields:
     min: 0
     width: 1/4
     default: 0
-  text:
-    label: Text
-    type:  textarea
+  sortable:
+    label: Sortable
+    type:  sortable
+    sortable: true
+    layout:  base
+    variant: null
+    limit: false
+    parent: null
+    prefix: null
+    options:
+      limit: false
   headerOptions:
     label: Header Options
     type: tabs
