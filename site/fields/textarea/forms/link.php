@@ -19,7 +19,7 @@ return function($page, $textarea) {
     'popup' => array(
       'label' => 'Popup',
       'type'  => 'toggle',
-      'default' => 'false'
+      'default' => 'true'
     )
   ));
 

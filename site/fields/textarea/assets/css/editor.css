@@ -4,6 +4,9 @@
 .field-buttons .btn {
   padding: .5em 1.25em;
 }
+.field-with-textarea .field-buttons .kirbytags {
+  display: none;
+}
 
 /* BUTTON HOVER -> */
 
@@ -77,3 +80,27 @@
 }
 
 /* <- PAGELINK */
+
+
+/* AUTOCOMPLETE -> */
+
+.textcomplete-dropdown {
+  list-style: none;
+  background: white;
+  box-shadow: rgba(0,0,0,.2) 0 2px 10px;
+}
+  .textcomplete-dropdown .textcomplete-item {
+    text-transform: capitalize;
+    border-bottom: 1px solid #efefef;
+  }
+    .textcomplete-dropdown .textcomplete-item a {
+      padding: .5em 1em .5em 1em;
+      color: inherit;
+      display: block;
+    }
+  .textcomplete-dropdown .textcomplete-item.active {
+    background-color: #8DAE28;
+    color: white;
+  }
+
+/* <- AUTOCOMPLETE */

@@ -3,6 +3,8 @@ var width = $(window).width(),
     height = $(window).height(),
     isMobile = false,
     $body,
+    $menu,
+    $header,
     $siteTitle,
     target,
     $slider,
@@ -19,6 +21,8 @@ $(function() {
             $(document).ready(function($) {
                 $body = $('body');
                 $siteTitle = $("#site-title");
+                $header = $("header");
+                $menu = $("#menu");
                 $container = $('#container');
                 app.interact();
                 // app.smoothState('#main', $container);
@@ -59,18 +63,82 @@ $(function() {
         interact: function() {
             //app.loadSlider();
             app.fullPage();
+            app.juicerFeed();
+            app.peopleAccordion();
+            $header.click(function(event) {
+                app.toggleMenu();
+            });
+            $("[data-menuanchor]").click(function(event) {
+                setTimeout(app.toggleMenu, 1000);
+            });
+            $("[data-type='landing']").click(function(event) {
+                $.fn.fullpage.moveSectionDown();
+            });
+        },
+        toggleMenu: function() {
+            if ($body.hasClass('menu-visible')) {
+                $body.removeClass('menu-visible');
+                $container.add($header).attr('style', '');
+            } else {
+                $body.toggleClass('menu-visible');
+                $container.add($header).css('transform', 'translateX(' + $menu.outerWidth() + 'px) translateZ(0)');
+            }
+        },
+        juicerFeed: function() {
+            if (feedId) {
+                var templates = {
+                  Default: '\
+                    <a href="{{full_url}}" target="_blank" class="post"> \
+                      {{poster_name}}<br>\
+                      <img src="{{image}}" />\
+                    </a>'
+                };
+                var juicer = juicerjs({
+                    feed: feedId,
+                    templates: templates,
+                    human_time: {
+                        day: ['Jour', 'Jours'],
+                        hour: ['Heure', 'Heures'],
+                        minute: ['Minute', 'Minutes'],
+                        second: ['Seconde', 'Secondes']
+                    },
+                    onSuccess: function(newPosts) {
+                        // callback
+                        $('#feed').append(newPosts);
+                    }
+                });
+                juicer.load();
+            }
+        },
+        peopleAccordion: function() {
             $(".people").click(function(event) {
                 if (!this.classList.contains('open')) {
                     $('.people').removeClass('open');
-                    $('.people-text').slideUp(500, 'easeInOutExpo');
-                    $(this).toggleClass('open').find('.people-text').slideToggle(500, 'easeInOutExpo');
+                    $('.people-text').slideUp(600, 'easeInOutExpo');
+                    $(this).toggleClass('open').find('.people-text').slideToggle(600, 'easeInOutExpo');
                 } else {
-                  $(this).removeClass('open').find('.people-text').slideUp(500, 'easeInOutExpo');
+                    $(this).removeClass('open').find('.people-text').slideUp(600, 'easeInOutExpo');
                 }
             });
         },
         fullPage: function() {
+            function animTitle(loadedSection) {
+                $(".section-title").addClass('hidden');
+                $(".section-title[data-id='" + loadedSection.data('title') + "']").removeClass('hidden');
+                if (loadedSection.attr('hide-title')) {
+                    $siteTitle.addClass('hidden');
+                } else {
+                    $siteTitle.removeClass('hidden');
+                }
+                if (loadedSection.attr('question')) {
+                    $("#question-mark").removeClass('hidden');
+                } else {
+                    $("#question-mark").addClass('hidden');
+                }
+            }
+            test = true;
             $('#sections').fullpage({
+                menu: '#menu',
                 //Design
                 controlArrows: false,
                 verticalCentered: false,
@@ -78,10 +146,11 @@ $(function() {
                 responsiveHeight: 0,
                 responsiveSlides: false,
                 //Scrolling
+                animateAnchor: false,
                 css3: true,
-                scrollingSpeed: 700,
-                autoScrolling: true,
-                fitToSection: true,
+                scrollingSpeed: 1000,
+                autoScrolling: test,
+                fitToSection: test,
                 scrollBar: false,
                 easing: 'easeInOutCubic',
                 easingcss3: 'ease',
@@ -97,7 +166,7 @@ $(function() {
                 resetSliders: false,
                 fadingEffect: false,
                 normalScrollElements: '#element1, .element2',
-                scrollOverflow: true,
+                scrollOverflow: test,
                 scrollOverflowReset: false,
                 scrollOverflowOptions: null,
                 touchSensitivity: 15,
@@ -106,37 +175,15 @@ $(function() {
                 //Custom selectors
                 sectionSelector: 'section',
                 slideSelector: '.slide',
-                lazyLoading: true,
+                lazyLoading: false,
                 //events
                 onLeave: function(index, nextIndex, direction) {
-                  var loadedSection = $('section').eq(nextIndex - 1);
-                    $(".section-title").addClass('hidden');
-                    $(".section-title[data-id='" + loadedSection.data('anchor') + "']").removeClass('hidden');
-                    if (loadedSection.attr('hide-title')) {
-                        $siteTitle.addClass('hidden');
-                    } else {
-                        $siteTitle.removeClass('hidden');
-                    }
-                    if (loadedSection.attr('question')) {
-                        $("#question-mark").removeClass('hidden');
-                    } else {
-                        $("#question-mark").addClass('hidden');
-                    }
+                    var loadedSection = $('section').eq(nextIndex - 1);
+                    animTitle(loadedSection);
                 },
                 afterLoad: function(anchorLink, index) {
                     var loadedSection = $(this);
-                    $(".section-title").addClass('hidden');
-                    $(".section-title[data-id='" + loadedSection.data('anchor') + "']").removeClass('hidden');
-                    if (loadedSection.attr('hide-title')) {
-                        $siteTitle.addClass('hidden');
-                    } else {
-                        $siteTitle.removeClass('hidden');
-                    }
-                    if (loadedSection.attr('question')) {
-                        $("#question-mark").removeClass('hidden');
-                    } else {
-                        $("#question-mark").addClass('hidden');
-                    }
+                    animTitle(loadedSection);
                 },
                 afterRender: function() {},
                 afterResize: function() {},

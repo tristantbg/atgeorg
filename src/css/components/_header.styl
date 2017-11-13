@@ -1,5 +1,5 @@
 header
-	transition transform 700ms ease
+	transition transform $containerTransition $kinetic, top 700ms ease
 	position fixed
 	top ($padding/2)
 	left $padding
@@ -22,7 +22,38 @@ header
 		&.hidden
 			width 0 !important
 
-.fp-viewing-landing
+body.fp-viewing-landing
 	header
-		transform translateY(300%) translateZ(0)
+		top 25%
+
+nav#menu
+	transition transform $containerTransition $kinetic, color ($containerTransition/2) ease
+	position fixed
+	top 0
+	left 0
+	height 100%
+	padding $padding
+	z-index 10
+	transform translateX(-100%) translateZ(0)
+	background $secondary
+	ul
+		transition transform ($containerTransition*2/3) ($containerTransition/3.5) ease
+		transform translateX(-50%) translateZ(0)
+	li
+		&:not(.active)
+			a::after
+				content '\2022\00a0'
+				color $secondary !important
+		&:not(.parent).active
+			a::before
+				content '\2022\00a0'
+
+body.menu-visible
+	nav#menu
+		transition transform $containerTransition $kinetic, color ($containerTransition/3) ($containerTransition/2) $kinetic
+		color $primary
+		transform translateZ(0)
+		ul
+			transform translateZ(0)
+	
 		

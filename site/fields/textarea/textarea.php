@@ -4,6 +4,7 @@ class TextareaField extends TextField {
   
   static public $assets = array(
     'js' => array(
+      'jquery.textcomplete.min.js',
       'editor.js'
     ),
     'css' => array(

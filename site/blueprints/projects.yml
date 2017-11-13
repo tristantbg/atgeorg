@@ -18,6 +18,25 @@ fields:
     min: 0
     width: 1/4
     default: 0
+  pageindex:
+    label: Projects
+    type: index
+    options: children
+    rows: 100
+    columns:
+      projectcode: Code
+      title: Title
+      place: Place
+      categories: Categories
+      client: Client
+      uid: Slug
+  tab1:
+    label: Categories
+    type: tabs
+  categories:
+    label: Categories
+    type: taglist
+    separator: ,
   headerOptions:
     label: Header Options
     type: tabs

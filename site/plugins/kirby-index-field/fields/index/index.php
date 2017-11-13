@@ -1,0 +1,87 @@
+<?php
+
+class IndexField extends BaseField {
+
+  static public $assets = [
+    'css' => [
+      'datatables.min.css',
+      'main.css'
+    ],
+    'js' => [
+      'datatables.min.js',
+      'main.js'
+    ]
+  ];
+
+  public function __construct () {
+    $this->rows = 10;
+    $this->order = 'asc';
+    $this->type = 'index';
+    $this->options = [];
+    $this->icon = false;
+  }
+
+  public function routes () {
+    return array(
+      array(
+        'pattern' => 'list',
+        'method'  => 'get',
+        'action'  => 'list_entries'
+      )
+    );
+  }
+
+  public function subpagelinks () {
+    if (in_array($this->options, ['children', 'visibleChildren', 'invisibleChildren'])) {
+      return <<<HTML
+        <span class="hgroup-options shiv shiv-dark shiv-left">
+          <span class="hgroup-option-right">
+            <a href="{$this->page->url('subpages')}" title="Edit">
+              <i class="icon icon-left fa fa-pencil"></i><span>Edit</span>
+            </a>
+            <a href="{$this->page->url('add')}" title="+" shortcut="+" data-modal="true">
+              <i class="icon icon-left fa fa-plus-circle"></i><span>Add</span>
+            </a>
+          </span>
+        </span>
+HTML;
+    }
+  }
+
+  public function label () {
+    if (!$this->label) return null;
+    
+    $subpagelinks = '';
+    if (isset($this->options) && $subpagelinks = $this->subpagelinks()) {
+      if (!(isset($this->addedit) && !$this->addedit)) {
+        $subpagelinks = $subpagelinks;
+      }
+    }
+
+    return <<<HTML
+      <label class="label" for="{$this->id()}">
+        <h2 class="hgroup hgroup-single-line hgroup-compressed cf">
+          <span class="hgroup-title">{$this->i18n($this->label)}</span>
+          {$subpagelinks}
+        </h2>
+      </label>
+HTML;
+  }
+
+  public function columns () {
+    return !empty($this->columns) ? $this->columns : [ 'title' => 'Title' ];
+  }
+
+  public function content () {
+    return tpl::load(__DIR__ . DS . 'template.php', array('field' => $this));
+  }
+
+  public function url ($action) {
+    return purl($this->model(), 'field/' . $this->name() . '/index/' . $action);
+  }
+
+  public function validate () {
+    return true;
+  }
+
+}

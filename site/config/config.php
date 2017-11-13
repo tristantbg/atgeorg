@@ -30,16 +30,19 @@ of the system, please check out http://getkirby.com/docs/advanced/options
 */
 
 c::set('debug', true);
+c::set('textarea.autocomplete', true);
 c::set('plugin.embed.video.lazyload', true);
 c::set('plugin.embed.video.lazyload.btn', 'assets/images/play.png');
 c::set('kirbytext.image.figure', false);
 //Typo
 c::set('typography', true);
+c::set('typography.quotes.primary', 'doubleGuillemetsFrench');
+c::set('typography.quotes.secondary', 'doubleCurled');
 c::set('typography.ordinal.suffix', false);
 c::set('typography.fractions', false);
 c::set('typography.dashes.spacing', false);
-c::set('typography.hyphenation', true);
-//c::set('typography.hyphenation.language', 'fr');
+c::set('typography.hyphenation', false);
+c::set('typography.hyphenation.language', 'fr');
 //c::set('typography.hyphenation.minlength', 5);
 c::set('typography.hyphenation.headings', false);
 c::set('typography.hyphenation.allcaps', false);
@@ -68,4 +71,11 @@ c::set('routes', array(
 				Sitemap: ' . u('sitemap.xml'), 'txt');
 		}
 		)
-	));
+));
+kirby()->hook(['panel.page.create', 'panel.page.sort', 'panel.page.hide', 'panel.page.delete'], function($page) {
+	if ($page->intendedTemplate() == 'team' || $page->intendedTemplate() == 'informations') {
+		$page->update(array(
+			'sortable'    => ''
+		));
+	}
+});

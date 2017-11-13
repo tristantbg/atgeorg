@@ -33,3 +33,11 @@ fields:
     type: image
     help: 1200x630px minimum
     width: 1/2
+  feedId:
+    label: Juicer Feed ID
+    type: text
+    icon: code
+    width: 1/2
+  introImages:
+    label: Landing Images
+    type: images

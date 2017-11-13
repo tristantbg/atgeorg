@@ -11,43 +11,73 @@ files:
       label: Video File
       type: select
       options: videos
-    contentsize:
-      label: Size
-      type: radio
-      default: large
-      options:
-        small: Small
-        medium: Medium
-        large: Large
-      columns: 3
 fields:
   prevnext: prevnext
+  mainInfos:
+    label: Main infos
+    type: tabs
   title:
     label: Title
     type:  text
-    width: 1/2
-  subtitle:
-    label: Subtitle
-    type: text
-    width: 1/2
+    width: 3/4
   featured:
     label: Featured image
     type: image
     help: Required to display project
     width: 1/4
-  date:
-    label: Year
+  place:
+    label: Place
+    type:  text
+    width: 1/4
+  projectcode:
+    label: Code
+    type: text
+    required: true
+    help: CHP, TRP...
+    width: 1/4
+  startdate:
+    label: Start Date
     type:  date
     format: YYYY
     required: true
     width: 1/4
+  enddate:
+    label: End Date
+    type:  date
+    format: YYYY
+    width: 1/4
   client:
     label: Client
     type:  text
-    width: 2/4
+    width: 1/4
+  categories:
+    label: Categories
+    type: checkboxes
+    options: field
+    columns: 2
+    width: 3/4
+    field:
+      page: ../
+      name: categories
+      separator: ,
+  projectContent:
+    label: Content
+    type: tabs
   text:
     label: Description
     type: textarea
+  text2:
+    label: Écologie de projet
+    type: textarea
+  text3:
+    label: Économie de projet
+    type: textarea
   medias: 
     label: Images
-    type: gallery
+    type: images
+  revisionsTabs:
+    label: Revisions
+    type: tabs
+  revisions:
+    label: Revisions
+    type: revisions

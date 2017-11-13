@@ -1,11 +1,26 @@
 section
+	.iScrollVerticalScrollbar
+		width 7px !important
+		.iScrollIndicator
+			background $secondary !important
+			border none !important
+			border-radius 0 !important
 	.content
-		padding $padding $padding ($heading*3) 0
+		padding $padding $padding $heading 0
 		width 50%
 		margin 0 0 0 auto
+		+below($md)
+			width 100% !important
 	.fp-scroller
 		.content
-			padding-bottom 100vh
+			padding-bottom 70vh
+	&[data-type="landing"]
+		cursor pointer
+		img
+			position absolute
+			width 20%
+			top 15vh
+			left 30%
 	&[data-type="informations"]
 		.content
 			padding-top ($padding/2)
@@ -19,17 +34,58 @@ section
 		[event-target="people"]
 		.people
 			span(1)
+			position relative
+			img.avatar
+				transition opacity 150ms ease
+				position absolute
+				width 20%
+				max-width 100%
+				top ($padding / -2)
+				left 'calc(-20% - %s)' % $padding
+				border-radius 50%
+				opacity 0
 			h2:first-child
 				cursor pointer
 			&.open
 				.avatar
+					transition-delay 500ms
 					opacity 1
 			.people-text
 				display none
 				flowing-paragraph(2em)
+				margin-bottom 1em
 				&::before
 					content ''
 					display block
 					width .15em
 					height .15em
-			
+	&[data-type="projects"]
+		.content
+			padding-right 0
+		.projects-list
+			span(1)
+		.project-item
+			span(1/4)
+			padding-right $padding
+			margin-bottom $padding
+			img
+				display block
+			.project-infos
+				position absolute
+				top 0
+				left 0
+				width 100%
+				height 100%
+				overflow hidden
+				opacity 0
+				background $primary
+				span, p
+					display inline
+			a
+				display block
+				position relative
+				width 100%
+				height 100%
+				&:hover
+					.project-infos
+						opacity 1
