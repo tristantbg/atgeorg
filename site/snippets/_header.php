@@ -37,16 +37,16 @@
 	<?php endif ?>
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="<?= html($page->url()) ?>" />
-	<?php if($page->content()->name() == "project"): ?>
-		<?php if (!$page->featured()->empty()): ?>
-			<?php $ogimage = $page->featured()->toFile()->width(1200) ?>
+	<?php if($page->intendedTemplate() == "project"): ?>
+		<?php if ($page->featured()->isNotEmpty() && $ogimage = $page->featured()->toFile()): ?>
+			<?php $ogimage = $ogimage->width(1200) ?>
 			<meta property="og:image" content="<?= $ogimage->url() ?>"/>
 			<meta property="og:image:width" content="<?= $ogimage->width() ?>"/>
 			<meta property="og:image:height" content="<?= $ogimage->height() ?>"/>
 		<?php endif ?>
 	<?php else: ?>
-		<?php if(!$site->ogimage()->empty()): ?>
-			<?php $ogimage = $site->ogimage()->toFile()->width(1200) ?>
+		<?php if($site->ogimage()->isNotEmpty() && $ogimage = $site->ogimage()->toFile()): ?>
+			<?php $ogimage = $ogimage->width(1200) ?>
 			<meta property="og:image" content="<?= $ogimage->url() ?>"/>
 			<meta property="og:image:width" content="<?= $ogimage->width() ?>"/>
 			<meta property="og:image:height" content="<?= $ogimage->height() ?>"/>
@@ -93,5 +93,3 @@
 
 	<?php snippet('_section_title') ?>
 	<?php snippet('_menu') ?>
-
-	<div id="container">

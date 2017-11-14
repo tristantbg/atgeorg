@@ -1,4 +1,2 @@
-<div id="feed">
-	<?= $page->text()->kt() ?>
-</div>
-<div id="load-more-news"></div>
+<div id="feed"></div>
+<h2 id="load-more-news">[charger la suite]</h2>

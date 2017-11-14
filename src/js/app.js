@@ -25,13 +25,11 @@ $(function() {
                 $menu = $("#menu");
                 $container = $('#container');
                 app.interact();
-                // app.smoothState('#main', $container);
-                // window.viewportUnitsBuggyfill.init();
                 $(document).keyup(function(e) {
                     //esc
                     if (e.keyCode === 27) app.goBack();
-                    if ($slider && e.keyCode === 39) $slider.flickity('next');
-                    if ($slider && e.keyCode === 37) $slider.flickity('previous');
+                    // if ($slider && e.keyCode === 39);
+                    // if ($slider && e.keyCode === 37);
                 });
                 $(window).load(function() {
                     app.sizeSet();
@@ -43,7 +41,7 @@ $(function() {
             width = $(window).width();
             height = $(window).height();
             $("#site-title, .section-title").each(function(index, el) {
-                el.setAttribute('style', '');
+                el.removeAttribute('style');
                 if (el.classList.contains('hidden')) {
                     el.classList.remove('hidden');
                     el.style.width = $(el).width() + 'px';
@@ -62,6 +60,7 @@ $(function() {
         },
         interact: function() {
             //app.loadSlider();
+            $header.css('transition', 'none');
             app.fullPage();
             app.juicerFeed();
             app.peopleAccordion();
@@ -74,40 +73,88 @@ $(function() {
             $("[data-type='landing']").click(function(event) {
                 $.fn.fullpage.moveSectionDown();
             });
+            $(".project-link, [data-target]").click(function(event) {
+                event.preventDefault();
+                app.loadPage(this);
+            });
+            $("#page-panel-close").click(function(event) {
+                $body.removeClass('page-panel');
+            });
         },
-        toggleMenu: function() {
-            if ($body.hasClass('menu-visible')) {
+        loadPage: function(target) {
+            var url = target.getAttribute("href");
+            $.ajax({
+                url: url,
+                cache: true
+            }).done(function(response) {
+                var content = $(response).find("#page-panel").html();
+                $("#page-panel").html(content);
+                history.pushState(null, window.title, url);
+                setTimeout(function() {
+                    app.toggleProjectMode(true);
+                }, 100);
+            });
+        },
+        toggleMenu: function(forceOpen) {
+            if (!forceOpen && $body.hasClass('menu-visible')) {
                 $body.removeClass('menu-visible');
-                $container.add($header).attr('style', '');
+                $container.add($header).removeAttr('style');
             } else {
-                $body.toggleClass('menu-visible');
+                $body.addClass('menu-visible');
                 $container.add($header).css('transform', 'translateX(' + $menu.outerWidth() + 'px) translateZ(0)');
+            }
+        },
+        toggleProjectMode: function(forceOpen) {
+            if (!forceOpen && $body.hasClass('page-panel')) {
+                $body.removeClass('page-panel');
+            } else {
+                $body.addClass('page-panel');
             }
         },
         juicerFeed: function() {
             if (feedId) {
+                var loading = document.getElementById("load-more-news");
+                if (!loading) return;
+                loading.savedText = loading.innerHTML;
                 var templates = {
-                  Default: '\
-                    <a href="{{full_url}}" target="_blank" class="post"> \
-                      {{poster_name}}<br>\
-                      <img src="{{image}}" />\
-                    </a>'
+                    Default: '\
+                    <div class="news-item">\
+                      <a href="{{full_url}}" target="_blank" rel="noopener nofollow">\
+                        <h4>{{source_source}} il y a {{human_time_diff}} {{human_likes_and_comments}}</h4>\
+                      </a>\
+                      <div class="message">{{message}}</div>\
+                      <a href="{{full_url}}" target="_blank" rel="noopener nofollow">\
+                        <img src="{{image}}" width="100%">\
+                      </a>\
+                    </div>',
                 };
                 var juicer = juicerjs({
                     feed: feedId,
+                    limit: 5,
                     templates: templates,
                     human_time: {
-                        day: ['Jour', 'Jours'],
-                        hour: ['Heure', 'Heures'],
-                        minute: ['Minute', 'Minutes'],
-                        second: ['Seconde', 'Secondes']
+                        day: ['jour', 'jours'],
+                        hour: ['heure', 'heures'],
+                        minute: ['minute', 'minutes'],
+                        second: ['seconde', 'secondes']
                     },
+                    human_words: {
+                        comment: ['commentaire', 'commentaires'],
+                        like: ['like', 'likes']
+                    },
+                    human_divider: 'et',
                     onSuccess: function(newPosts) {
                         // callback
+                        loading.innerHTML = loading.savedText;
                         $('#feed').append(newPosts);
+                        setTimeout($.fn.fullpage.reBuild, 50);
                     }
                 });
                 juicer.load();
+                $(loading).click(function(event) {
+                    juicer.more();
+                    this.innerHTML = "[chargement…]";
+                });
             }
         },
         peopleAccordion: function() {
@@ -136,7 +183,6 @@ $(function() {
                     $("#question-mark").addClass('hidden');
                 }
             }
-            test = true;
             $('#sections').fullpage({
                 menu: '#menu',
                 //Design
@@ -149,8 +195,8 @@ $(function() {
                 animateAnchor: false,
                 css3: true,
                 scrollingSpeed: 1000,
-                autoScrolling: test,
-                fitToSection: test,
+                autoScrolling: true,
+                fitToSection: true,
                 scrollBar: false,
                 easing: 'easeInOutCubic',
                 easingcss3: 'ease',
@@ -166,7 +212,7 @@ $(function() {
                 resetSliders: false,
                 fadingEffect: false,
                 normalScrollElements: '#element1, .element2',
-                scrollOverflow: test,
+                scrollOverflow: true,
                 scrollOverflowReset: false,
                 scrollOverflowOptions: null,
                 touchSensitivity: 15,
@@ -185,122 +231,16 @@ $(function() {
                     var loadedSection = $(this);
                     animTitle(loadedSection);
                 },
-                afterRender: function() {},
+                afterRender: function() {
+                    setTimeout(function() {
+                        $header.removeAttr('style');
+                    }, 300);
+                },
                 afterResize: function() {},
                 afterResponsive: function(isResponsive) {},
                 afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {},
                 onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex) {}
             });
-        },
-        loadSlider: function(hasVideos) {
-            $slider = false;
-            $slider = $('.slider').flickity({
-                cellSelector: '.slide',
-                imagesLoaded: true,
-                lazyLoad: 2,
-                setGallerySize: false,
-                accessibility: false,
-                wrapAround: true,
-                prevNextButtons: !isMobile,
-                pageDots: false,
-                draggable: isMobile,
-                dragThreshold: 20
-            });
-            if ($slider.length > 0) {
-                $slider.flkty = $slider.data('flickity');
-                $slider.count = $slider.flkty.slides.length;
-                if ($slider.flkty && $slider.count > 0) {
-                    $slider.attr("data-media", $slider.flkty.selectedElement.getAttribute("data-media"));
-                    $slider.on('select.flickity', function() {
-                        $('#slide-number').html(($slider.flkty.selectedIndex + 1) + '/' + $slider.count);
-                        $slider.attr("data-media", $slider.flkty.selectedElement.getAttribute("data-media"));
-                    });
-                    $slider.on('staticClick.flickity', function(event, pointer, cellElement, cellIndex) {
-                        if (!cellElement || !isMobile) {
-                            return;
-                        } else {
-                            $slider.flickity('next');
-                        }
-                    });
-                    // For lazysizes
-                    // $slider.on('select.flickity', function() {
-                    // var adjCellElems = $slider.flickity('getAdjacentCellElements', 2);
-                    // $(adjCellElems).find('.lazyimg:not(".lazyloaded")').addClass('lazyload');
-                    // });
-                    if (hasVideos) {
-                        var vids = $(".slider video");
-                        $.each(vids, function() {
-                            this.controls = false;
-                        });
-                        app.plyr();
-                        if (vids.length > 0) {
-                            $slider.on('select.flickity', function() {
-                                $.each(vids, function() {
-                                    this.pause();
-                                });
-                                $slider.removeClass('play pause');
-                            });
-                            if ($slider.flkty.selectedElement.getAttribute("data-media") == "video") {
-                                vids[0].play();
-                            }
-                        } else if ($slider.count < 2) {
-                            $mouseNav.hide();
-                            $slider.css('cursor', 'auto');
-                        }
-                    }
-                }
-            }
-        },
-        goIndex: function() {},
-        goBack: function() {
-            if (window.history && history.length > 0 && !$body.hasClass('projects')) {
-                window.history.go(-1);
-            } else {
-                $('#site-title a').click();
-            }
-        },
-        smoothState: function(container, $target) {
-            var options = {
-                    debug: true,
-                    scroll: false,
-                    anchors: '[data-target]',
-                    loadingClass: 'is-loading',
-                    prefetch: true,
-                    cacheLength: 4,
-                    onAction: function($currentTarget, $container) {
-                        lastTarget = target;
-                        target = $currentTarget.data('target');
-                        if (target === "back") app.goBack();
-                        // console.log(lastTarget);
-                    },
-                    onBefore: function(request, $container) {
-                        popstate = request.url.replace(/\/$/, '').replace(window.location.origin + $root, '');
-                        // console.log(popstate);
-                    },
-                    onStart: {
-                        duration: 0, // Duration of our animation
-                        render: function($container) {
-                            $body.addClass('is-loading');
-                        }
-                    },
-                    onReady: {
-                        duration: 0,
-                        render: function($container, $newContent) {
-                            // Inject the new content
-                            $(window).scrollTop(0);
-                            $container.html($newContent);
-                        }
-                    },
-                    onAfter: function($container, $newContent) {
-                        app.interact();
-                        setTimeout(function() {
-                            $body.removeClass('is-loading');
-                            // Clear cache for random content
-                            // smoothState.clear();
-                        }, 200);
-                    }
-                },
-                smoothState = $(container).smoothState(options).data('smoothState');
         }
     };
     app.init();

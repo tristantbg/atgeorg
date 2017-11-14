@@ -1,0 +1,28 @@
+#page-panel
+	transition transform $containerTransition $kinetic
+	position fixed
+	top 0
+	right 0
+	width 50%
+	height 100%
+	padding $padding
+	background $secondary
+	color $primary
+	transform translateX(100%) translateZ(0)
+	
+#page-panel-close
+	cursor crosshair
+	position absolute
+	height 100%
+	width 50%
+	top 0
+	left 0
+	display none
+
+body.page-panel
+	header, #container
+		transform translateX(-50vw) translateZ(0)
+	#page-panel
+		transform translateZ(0)
+	#page-panel-close
+		display block
