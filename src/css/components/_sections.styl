@@ -77,6 +77,9 @@ section
 				left 'calc(-20% - %s)' % $padding
 				border-radius 50%
 				opacity 0
+				+below($md)
+					right 0
+					left initial
 			h2:first-child
 				cursor pointer
 			&.open
@@ -87,6 +90,8 @@ section
 				display none
 				flowing-paragraph(2em)
 				margin-bottom 1em
+				+below($md)
+					padding-right 21%
 				&::before
 					content ''
 					display block
