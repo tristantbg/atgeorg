@@ -8,11 +8,11 @@ div#container
 		each $section in $sections
 			if $section->intendedTemplate() == "informations"
 				each $block in $section->children()->visible()
-					section(data-type=$section->intendedTemplate(), data-title=$section->uid(), data-anchor=$section->uid()."-".$block->uid(), hide-title=$section->hideSiteTitle()->bool(), question=$section->questionMark()->bool())
+					section(class="fp-auto-height-responsive" data-type=$section->intendedTemplate(), data-title=$section->uid(), data-anchor=$section->uid()."-".$block->uid(), hide-title=$section->hideSiteTitle()->bool(), question=$section->questionMark()->bool())
 						div.content(style=($section->contentSize()->value() > 0 ? 'width: calc(100% - '.$section->contentSize().'rem)' : ''))
 							!= snippet('_info-section', array('page' => $block))
 			else
-				section(data-type=$section->intendedTemplate(), data-title=$section->uid(), data-anchor=$section->uid(), hide-title=$section->hideSiteTitle()->bool(), question=$section->questionMark()->bool())
+				section(class="fp-auto-height-responsive" data-type=$section->intendedTemplate(), data-title=$section->uid(), data-anchor=$section->uid(), hide-title=$section->hideSiteTitle()->bool(), question=$section->questionMark()->bool())
 					div.content(style=($section->contentSize()->value() > 0 ? 'width: calc(100% - '.$section->contentSize().'rem)' : ''))
 						!= snippet('_'.$section->intendedTemplate(), array('page' => $section))
 

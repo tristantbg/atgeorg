@@ -1,8 +1,11 @@
 section
 	overflow hidden
+	min-height 100vh
 	.iScrollVerticalScrollbar
 		width 7px !important
 		.iScrollIndicator
+			top 0 !important
+			bottom 0 !important
 			background $secondary !important
 			border none !important
 			border-radius 0 !important
@@ -11,7 +14,10 @@ section
 		width 50%
 		margin 0 0 0 auto
 		+below($md)
+			span(1)
 			width 100% !important
+			padding-left $padding
+			padding-top 8rem !important
 	.fp-scroller
 		.content
 			padding-bottom 70vh
@@ -22,7 +28,12 @@ section
 			width 20%
 			top 15vh
 			left 30%
+			+below($md)
+				width 40vmin
+				left $padding
 	&[data-type="news"]
+		#feed
+			span(1)
 		.news-item
 			span(1)
 			position relative
@@ -36,6 +47,9 @@ section
 				// left 0
 		h4
 			margin-bottom 1em
+			&:hover::before
+				+above($md + 1)
+					content '\2192\00a0'
 		.message
 			margin-bottom 1.3rem
 		#load-more-news
@@ -82,12 +96,21 @@ section
 		.content
 			padding-right 0
 			width 55%
+		.projects-filters
+			margin-bottom 1em
+			h2
+				cursor pointer
+				&.active::before
+					content '\2022\00a0'
 		.projects-list
 			span(1)
 		.project-item
 			span(1/4)
-			padding-right $padding
+			width 22.4666666%
+			margin-right $padding
 			margin-bottom $padding
+			+below($md)
+				width 45.83333333%
 			img
 				display block
 			.project-infos
@@ -102,6 +125,7 @@ section
 				span, p
 					display inline
 			a
+				transition opacity 200ms
 				display block
 				position relative
 				width 100%
@@ -109,3 +133,8 @@ section
 				&:hover
 					.project-infos
 						opacity 1
+			&.disabled
+				background $secondary
+				a
+					cursor default
+					opacity 0

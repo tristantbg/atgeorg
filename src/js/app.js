@@ -24,6 +24,7 @@ $(function() {
                 $header = $("header");
                 $menu = $("#menu");
                 $container = $('#container');
+                app.sizeSet();
                 app.interact();
                 $(document).keyup(function(e) {
                     //esc
@@ -50,9 +51,9 @@ $(function() {
                     el.style.width = $(el).width() + 'px';
                 }
             });
-            if (width <= 770) isMobile = true;
+            if (width <= 1024) isMobile = true;
             if (isMobile) {
-                if (width >= 770) {
+                if (width >= 1024) {
                     //location.reload();
                     isMobile = false;
                 }
@@ -75,11 +76,35 @@ $(function() {
             });
             $(".project-link, [data-target]").click(function(event) {
                 event.preventDefault();
-                app.loadPage(this);
+                if (!this.parentNode.classList.contains('disabled')) {
+                    app.loadPage(this);
+                }
             });
             $("#page-panel-close").click(function(event) {
-                $body.removeClass('page-panel');
+                app.quitProjectMode();
             });
+            $("[data-filter]").click(function(event) {
+                var filter = this.getAttribute('data-filter');
+                var elems = $(this).parents('section').find(".project-item");
+                elems.removeClass('disabled');
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                } else {
+                    $("[data-filter]").removeClass('active');
+                    this.classList.add('active');
+                    elems.not('.filter-' + filter).addClass('disabled');
+                }
+            });
+        },
+        hashNavigate: function() {
+            // ?section=projects&project=friche-militaire
+            var hash = getAllUrlParams(window.location.href);
+            if (hash.section && hash.project) {
+                $.fn.fullpage.moveTo(hash.section);
+                setTimeout(function() {
+                    $("[data-id='" + hash.project + "']").trigger('click');
+                }, 300);
+            }
         },
         loadPage: function(target) {
             var url = target.getAttribute("href");
@@ -89,11 +114,24 @@ $(function() {
             }).done(function(response) {
                 var content = $(response).find("#page-panel").html();
                 $("#page-panel").html(content);
-                history.pushState(null, window.title, url);
+                // history.pushState(null, window.title, url);
                 setTimeout(function() {
                     app.toggleProjectMode(true);
+                    app.interactEmbed();
                 }, 100);
             });
+        },
+        interactEmbed: function() {
+            var pluginEmbedLoadLazyVideo = function() {
+                var wrapper = this.parentNode;
+                var embed = wrapper.children[0];
+                embed.src = embed.dataset.src;
+                this.remove();
+            };
+            var thumb = document.getElementsByClassName('embed__thumb');
+            for (var i = 0; i < thumb.length; i++) {
+                thumb[i].addEventListener('click', pluginEmbedLoadLazyVideo, false);
+            }
         },
         toggleMenu: function(forceOpen) {
             if (!forceOpen && $body.hasClass('menu-visible')) {
@@ -104,11 +142,27 @@ $(function() {
                 $container.add($header).css('transform', 'translateX(' + $menu.outerWidth() + 'px) translateZ(0)');
             }
         },
+        quitProjectMode: function() {
+            $body.removeClass('page-panel');
+            //$.fn.fullpage.setAutoScrolling(true);
+            if(isMobile) $body[0].style.overflow = "initial";
+            $('.fp-scrollable').each(function(index, el) {
+                $(this).data('iscrollInstance').enable();
+            });
+            setTimeout(function() {
+                $("#page-panel").empty();
+            }, 600);
+        },
         toggleProjectMode: function(forceOpen) {
             if (!forceOpen && $body.hasClass('page-panel')) {
-                $body.removeClass('page-panel');
+                app.quitProjectMode();
             } else {
                 $body.addClass('page-panel');
+                //$.fn.fullpage.setAutoScrolling(false);
+                if(isMobile) $body[0].style.overflow = "hidden";
+                $('.fp-scrollable').each(function(index, el) {
+                    $(this).data('iscrollInstance').disable();
+                });
             }
         },
         juicerFeed: function() {
@@ -212,12 +266,12 @@ $(function() {
                 resetSliders: false,
                 fadingEffect: false,
                 normalScrollElements: '#element1, .element2',
-                scrollOverflow: true,
+                scrollOverflow: !isMobile,
                 scrollOverflowReset: false,
                 scrollOverflowOptions: null,
                 touchSensitivity: 15,
                 normalScrollElementTouchThreshold: 5,
-                bigSectionsDestination: null,
+                bigSectionsDestination: top,
                 //Custom selectors
                 sectionSelector: 'section',
                 slideSelector: '.slide',
@@ -235,6 +289,7 @@ $(function() {
                     setTimeout(function() {
                         $header.removeAttr('style');
                     }, 300);
+                    setTimeout(app.hashNavigate, 600);
                 },
                 afterResize: function() {},
                 afterResponsive: function(isResponsive) {},

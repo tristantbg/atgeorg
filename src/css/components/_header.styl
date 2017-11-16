@@ -24,7 +24,8 @@ header
 
 body.fp-viewing-landing
 	header
-		top 25%
+		+above($md + 1)
+			top 25%
 
 nav#menu
 	transition transform $containerTransition $kinetic, color ($containerTransition/2) ease

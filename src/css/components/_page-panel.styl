@@ -9,14 +9,34 @@
 	background $secondary
 	color $primary
 	transform translateX(100%) translateZ(0)
+	overflow-y scroll
+	z-index 10
+	+below($md)
+		width 90%
+	.project-infos
+		margin-bottom 1em
+		span, p
+			display inline
+	.additional-infos
+		margin-bottom 1em
+	.project-medias
+		.project-media:not(:last-child)
+			margin-bottom 1em
+		img
+			display block
+		.lazy:not(.lazyloaded) + .caption
+			opacity 0
+		.caption
+			margin-top 1em
 	
 #page-panel-close
-	cursor crosshair
-	position absolute
+	cursor url('../../images/close-b.png') 8 8, default
+	position fixed
 	height 100%
 	width 50%
 	top 0
 	left 0
+	z-index 10
 	display none
 
 body.page-panel

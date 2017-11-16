@@ -10,6 +10,8 @@ body,html
 
 html
 	font-size 62.5%
+	+below($md)
+		font-size 1.8vmin
 
 body
 	font-family 'AG', Helvetica Neue, Arial, sans-serif
@@ -38,15 +40,20 @@ h2, h4, .caption, .lead, strong, #menu, .code, .project-link
 	em
 		font-family 'FI'
 
-small, .people-text, .project-infos
+small, .people-text, .project-infos, .project-content
 	font-size 1.7rem
 
 h4, .caption
 	font-size 1.3rem
+	+below($md)
+		font-size 1.7rem
 
 .people-text
 	strong
 		font-size ($heading/2)
+
+.project-link::before
+	content '\2192'
 
 ::selection
 	background alpha($secondary, 0.2)
@@ -71,6 +78,10 @@ video::-webkit-media-controls-timeline {}
 
 video::-webkit-media-controls-current-time-display {}
 
+.embed__thumb>img
+	opacity 1
+	transition none
+
 a, a:hover, a:visited, a:focus
 	color inherit
 	text-decoration none
@@ -82,6 +93,17 @@ a, a:hover, a:visited, a:focus
 
 .lazy.lazyloaded, .lazy.flickity-lazyloaded, .plyr.plyr--ready
 	opacity 1
+
+#main::before
+	+below($md)
+		content ''
+		position fixed
+		top 0
+		left 0
+		width 100%
+		height 8rem
+		background $primary
+		z-index 1
 
 body.is-loading
 	#page-content

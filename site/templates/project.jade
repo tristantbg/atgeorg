@@ -3,7 +3,40 @@
 div#container
 
 div#page-panel
-	h1=$page->title()
+	div.project-content
+		div.project-infos
+			strong.code='→'.$page->projectCode().' '
+			if $page->text()->isNotEmpty()
+				!=$page->text()->kt()
+			if $page->date('Y', 'startdate')
+				!=' '.$page->date('Y', 'startdate')
+			if $page->date('Y', 'enddate')
+				!=' – '.$page->date('Y', 'enddate')
+			if $page->client()->isNotEmpty()
+				!=' '.$page->client()->html()
+			if $page->place()->isNotEmpty()
+				!='• '.$page->place()->html().' '
+		if $page->text2()->isNotEmpty()
+			div.additional-infos
+				h2="Écologie de projet"
+				!=$page->text2()->kt()
+		if $page->text3()->isNotEmpty()
+			div.additional-infos
+				h2="Écolonomie de projet"
+				!=$page->text3()->kt()
+		div.project-medias
+			each $image in $page->medias()->toStructure()
+				if $image = $image->toFile()
+					div.project-media
+						if $image->videolink()->isNotEmpty()
+							!=$image->videolink()->embed()
+						else
+							!=$srcset = ''
+							each $size in [500,1000,1500,2000]
+								-$srcset .= $srcset . $image->width($size)->url() . ' ' . $size . 'w, '
+							img(class="lazy lazyload" data-src=$image->width(1000) data-srcset=$srcset data-sizes="auto" data-optimumx="1.5" alt=$page->title()->html().' - © '.$site->title()->html() width="100%")
+						if $image->caption()->isNotEmpty()
+							div.caption!=$image->caption()->kt()
 	
 div#page-panel-close
 

@@ -3,6 +3,9 @@ files: true
 pages: false
 files:
   fields:
+    caption:
+      label: Caption
+      type: textarea
     videolink:
       label: Video Link
       type: url
