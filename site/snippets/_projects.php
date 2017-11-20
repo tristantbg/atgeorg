@@ -19,7 +19,7 @@
 				}
 			?>
 			<div class="project-item<?= $categories ?>">
-				<a href="<?= $project->url() ?>" data-id="<?= $project->uid() ?>" data-target="project">
+				<a href="<?= $project->url() ?>" data-id="<?= $project->uid() ?>" data-parent="<?= $project->parent()->uid() ?>" data-target="project">
 					<img 
 					class="lazy lazyload lazypreload" 
 					src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 

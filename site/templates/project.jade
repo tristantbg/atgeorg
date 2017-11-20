@@ -1,3 +1,5 @@
+-$bot = _bot_detected();
+
 != snippet('_header')
 
 div#container
@@ -41,3 +43,11 @@ div#page-panel
 div#page-panel-close
 
 != snippet('_footer')
+
+if (!$bot && !r::ajax())
+	script.
+		var hash = getAllUrlParams(window.location.href);
+		if (hash.section && hash.project) {
+			url = window.location.origin + $root + '#' + hash.section + '?section=' + hash.section + '&project=' + hash.project;
+			window.location = url;
+		}

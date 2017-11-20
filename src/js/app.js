@@ -10,7 +10,7 @@ var width = $(window).width(),
     $slider,
     lastTarget = false,
     $mouseNav,
-    $root = '/';
+    $root = '/ateliergeorges/';
 $(function() {
     var app = {
         init: function() {
@@ -36,6 +36,11 @@ $(function() {
                     app.sizeSet();
                     $(".loader").hide();
                 });
+                document.addEventListener('lazybeforeunveil', function(e) {
+                    if ($.fn.fullpage && !isMobile) {
+                        setTimeout($.fn.fullpage.reBuild, 100);
+                    }
+                });
             });
         },
         sizeSet: function() {
@@ -54,7 +59,7 @@ $(function() {
             if (width <= 1024) isMobile = true;
             if (isMobile) {
                 if (width >= 1024) {
-                    //location.reload();
+                    location.reload();
                     isMobile = false;
                 }
             }
@@ -95,6 +100,11 @@ $(function() {
                     elems.not('.filter-' + filter).addClass('disabled');
                 }
             });
+            $("section[data-type='projects'] .project-item a").bind('touchstart', function(event) {
+                $(this).find('.project-infos')[0].style.opacity = 1;
+            }).bind('touchend', function(event) {
+                $(this).find('.project-infos')[0].style.opacity = 0;
+            });
         },
         hashNavigate: function() {
             // ?section=projects&project=friche-militaire
@@ -113,8 +123,10 @@ $(function() {
                 cache: true
             }).done(function(response) {
                 var content = $(response).find("#page-panel").html();
+                var id = target.getAttribute("data-id");
+                var parent = target.getAttribute("data-parent");
                 $("#page-panel").html(content);
-                // history.pushState(null, window.title, url);
+                if (window.history) history.pushState(null, window.location.title, window.location.origin + $root + parent + '/' + id + '/?section=' + parent + '&project=' + id);
                 setTimeout(function() {
                     app.toggleProjectMode(true);
                     app.interactEmbed();
@@ -143,12 +155,16 @@ $(function() {
             }
         },
         quitProjectMode: function() {
-            $body.removeClass('page-panel');
-            //$.fn.fullpage.setAutoScrolling(true);
-            if(isMobile) $body[0].style.overflow = "initial";
+            $body.removeClass('page-panel project-panel');
+            $body[0].style.overflow = "initial";
+            setTimeout(function() {
+                if (!isMobile) $.fn.fullpage.setAutoScrolling(true);
+            }, 700);
             $('.fp-scrollable').each(function(index, el) {
                 $(this).data('iscrollInstance').enable();
             });
+            var hash = getAllUrlParams(window.location.href);
+            if (hash.section && window.history) history.pushState(null, window.location.title, window.location.origin + $root + "#" + hash.section);
             setTimeout(function() {
                 $("#page-panel").empty();
             }, 600);
@@ -157,9 +173,9 @@ $(function() {
             if (!forceOpen && $body.hasClass('page-panel')) {
                 app.quitProjectMode();
             } else {
-                $body.addClass('page-panel');
-                //$.fn.fullpage.setAutoScrolling(false);
-                if(isMobile) $body[0].style.overflow = "hidden";
+                $body.addClass('page-panel project-panel');
+                if (!isMobile) $.fn.fullpage.setAutoScrolling(false);
+                $body[0].style.overflow = "hidden";
                 $('.fp-scrollable').each(function(index, el) {
                     $(this).data('iscrollInstance').disable();
                 });
@@ -178,7 +194,7 @@ $(function() {
                       </a>\
                       <div class="message">{{message}}</div>\
                       <a href="{{full_url}}" target="_blank" rel="noopener nofollow">\
-                        <img src="{{image}}" width="100%">\
+                        <img class="lazy lazyload lazypreload" data-src="{{image}}" width="100%">\
                       </a>\
                     </div>',
                 };
@@ -201,7 +217,9 @@ $(function() {
                         // callback
                         loading.innerHTML = loading.savedText;
                         $('#feed').append(newPosts);
-                        setTimeout($.fn.fullpage.reBuild, 50);
+                        if ($.fn.fullpage && !isMobile) {
+                            setTimeout($.fn.fullpage.reBuild, 50);
+                        }
                     }
                 });
                 juicer.load();
