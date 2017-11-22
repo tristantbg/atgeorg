@@ -6,14 +6,17 @@ div#container
 
 div#page-panel
 	div.project-content
-		div.project-infos
+		div.project-header
 			strong.code='→'.$page->projectCode().' '
-			if $page->text()->isNotEmpty()
-				!=$page->text()->kt()
+			if $page->subtitle()->isNotEmpty()
+				!=$page->subtitle()->kt()
 			if $page->date('Y', 'startdate')
 				!=' '.$page->date('Y', 'startdate')
-			if $page->date('Y', 'enddate')
+			if $page->enddate()->isNotEmpty() && $page->date('Y', 'enddate') && $page->date('Y', 'startdate') != $page->date('Y', 'enddate')
 				!=' – '.$page->date('Y', 'enddate')
+		div.project-infos
+			if $page->text()->isNotEmpty()
+				!=$page->text()->kt()
 			if $page->client()->isNotEmpty()
 				!=' '.$page->client()->html()
 			if $page->place()->isNotEmpty()
@@ -24,7 +27,7 @@ div#page-panel
 				!=$page->text2()->kt()
 		if $page->text3()->isNotEmpty()
 			div.additional-infos
-				h2="Écolonomie de projet"
+				h2="Économie de projet"
 				!=$page->text3()->kt()
 		div.project-medias
 			each $image in $page->medias()->toStructure()
@@ -46,8 +49,5 @@ div#page-panel-close
 
 if (!$bot && !r::ajax())
 	script.
-		var hash = getAllUrlParams(window.location.href);
-		if (hash.section && hash.project) {
-			url = window.location.origin + $root + '#' + hash.section + '?section=' + hash.section + '&project=' + hash.project;
-			window.location = url;
-		}
+		url = window.location.origin + $root + '#' + '#{$page->parent()}' + '?section=' + '#{$page->parent()}' + '&project=' + '#{$page->uid()}';
+		window.location = url;

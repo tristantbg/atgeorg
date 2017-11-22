@@ -28,9 +28,9 @@
 					alt="<?= $project->title()->html() ?>, <?= $site->title()->html() ?>">
 					<div class="project-infos">
 						<span class="code"><?= '→'.$project->projectCode().' ' ?></span>
-						<span><?= $project->text()->markdown() ?><span>
+						<span><?= $project->subtitle()->html() ?><span>
 						<?php if ($project->startdate()->isNotEmpty()): ?>
-							<br><span class="date"><?= ' '.$project->date('Y', 'startdate'); if($end = $project->date('Y', 'enddate')) echo ' – '.$end ?></span>
+							<br><span class="date"><?= ' '.$project->date('Y', 'startdate'); if($project->enddate()->isNotEmpty() && $project->date('Y', 'enddate') != $project->date('Y', 'startdate')) echo ' – '.$project->date('Y', 'enddate') ?></span>
 						<?php endif ?>
 						<?php if ($project->client()->isNotEmpty()): ?>
 							<br><span class="client"><?= $project->client()->html() ?></span>
