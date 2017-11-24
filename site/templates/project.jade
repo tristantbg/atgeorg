@@ -8,8 +8,9 @@ div#page-panel
 	div.project-content
 		div.project-header
 			strong.code='→'.$page->projectCode().' '
-			if $page->subtitle()->isNotEmpty()
-				!=$page->subtitle()->kt()
+			p=$page->title()
+			//- if $page->subtitle()->isNotEmpty()
+			//- 	!=$page->subtitle()->kt()
 			if $page->date('Y', 'startdate')
 				!=' '.$page->date('Y', 'startdate')
 			if $page->enddate()->isNotEmpty() && $page->date('Y', 'enddate') && $page->date('Y', 'startdate') != $page->date('Y', 'enddate')

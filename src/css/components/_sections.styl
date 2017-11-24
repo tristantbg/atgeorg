@@ -28,11 +28,11 @@ section
 		cursor pointer
 		img
 			position absolute
-			width 20%
-			top 15vh
-			left 30%
+			width 25%
+			top 20vh
+			left 50%
 			+below($md)
-				width 40vmin
+				width 60vmin
 				left $padding
 	&[data-type="news"]
 		#feed
@@ -118,11 +118,11 @@ section
 			span(1)
 		.project-item
 			span(1/4)
-			width 22.4%
+			width 'calc(100% / 4 - %s)' % ($padding)
 			margin-right $padding
 			margin-bottom $padding
 			+below($md)
-				width 45.83333333%
+				width 'calc(100% / 2 - %s)' % ($padding)
 			img
 				display block
 			.project-infos

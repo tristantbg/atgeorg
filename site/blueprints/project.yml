@@ -28,11 +28,6 @@ fields:
     type: image
     help: Required to display project
     width: 1/4
-  subtitle:
-    label: Subtitle
-    type:  text
-    validate: 
-      maxLength: 100
   place:
     label: Place
     type:  text
