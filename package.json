@@ -10,14 +10,14 @@
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
     "grunt-php": "*",
-    "jeet": "*",
-    "rupture": "*"
+    "jeet": "*"
   },
   "dependencies": {
     "flickity": "^2.0.8",
     "fullpage.js": "^2.9.4",
     "lazysizes": "^4.0.0-rc3",
     "normalize.css": "^7.0.0",
+    "rupture": "^0.7.1",
     "smoothstate": "^0.7.2"
   }
 }

@@ -1,6 +1,7 @@
 /* globals $:false */
 var width = $(window).width(),
     height = $(window).height(),
+    firstLoad = true,
     isMobile = false,
     $body,
     $menu,
@@ -36,9 +37,15 @@ $(function() {
                     app.sizeSet();
                     $(".loader").hide();
                 });
+                var refreshTimeout = null;
                 document.addEventListener('lazybeforeunveil', function(e) {
                     if ($.fn.fullpage && !isMobile) {
-                        setTimeout($.fn.fullpage.reBuild, 100);
+                        window.clearTimeout(refreshTimeout);
+                        if ($(e.target).parents("#page-panel")[0]) {
+                            refreshTimeout = setTimeout(app.iScroller.refreshAndReset, 300);
+                        } else {
+                            refreshTimeout = setTimeout(app.iScroller.refresh, 300);
+                        }
                     }
                 });
             });
@@ -106,6 +113,29 @@ $(function() {
                 $(this).find('.project-infos')[0].style.opacity = 0;
             });
         },
+        iScroller: {
+            enable: function() {
+                $('.fp-scrollable').each(function(index, el) {
+                    $(this).data('iscrollInstance').enable();
+                });
+            },
+            disable: function() {
+                $('.fp-scrollable').each(function(index, el) {
+                    $(this).data('iscrollInstance').disable();
+                });
+            },
+            refresh: function() {
+                $('.fp-scrollable').each(function(index, el) {
+                    $(this).data('iscrollInstance').refresh();
+                });
+            },
+            refreshAndReset: function() {
+                app.iScroller.refresh();
+                if ($.fn.fullpage && !isMobile) {
+                    setTimeout($.fn.fullpage.reBuild, 50);
+                }
+            }
+        },
         hashNavigate: function() {
             // ?section=projects&project=friche-militaire
             var hash = getAllUrlParams(window.location.href);
@@ -160,9 +190,7 @@ $(function() {
             setTimeout(function() {
                 if (!isMobile) $.fn.fullpage.setAutoScrolling(true);
             }, 700);
-            $('.fp-scrollable').each(function(index, el) {
-                $(this).data('iscrollInstance').enable();
-            });
+            app.iScroller.enable();
             var hash = getAllUrlParams(window.location.href);
             if (hash.section && window.history) history.pushState(null, window.location.title, window.location.origin + $root + "#" + hash.section);
             setTimeout(function() {
@@ -176,9 +204,7 @@ $(function() {
                 $body.addClass('page-panel project-panel');
                 if (!isMobile) $.fn.fullpage.setAutoScrolling(false);
                 $body[0].style.overflow = "hidden";
-                $('.fp-scrollable').each(function(index, el) {
-                    $(this).data('iscrollInstance').disable();
-                });
+                app.iScroller.disable();
             }
         },
         juicerFeed: function() {
@@ -266,7 +292,7 @@ $(function() {
                 //Scrolling
                 animateAnchor: false,
                 css3: true,
-                scrollingSpeed: 1000,
+                scrollingSpeed: 1200,
                 autoScrolling: true,
                 fitToSection: true,
                 scrollBar: false,
@@ -298,16 +324,21 @@ $(function() {
                 onLeave: function(index, nextIndex, direction) {
                     var loadedSection = $('section').eq(nextIndex - 1);
                     animTitle(loadedSection);
+                    app.iScroller.disable();
+                    setTimeout(app.iScroller.enable, 1000);
                 },
                 afterLoad: function(anchorLink, index) {
                     var loadedSection = $(this);
                     animTitle(loadedSection);
                 },
                 afterRender: function() {
+                    if (firstLoad) {
                     setTimeout(function() {
                         $header.removeAttr('style');
                     }, 300);
                     setTimeout(app.hashNavigate, 600);
+                    firstLoad = false;
+                    }
                 },
                 afterResize: function() {},
                 afterResponsive: function(isResponsive) {},
