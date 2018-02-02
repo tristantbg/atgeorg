@@ -1,12 +1,14 @@
 <div class="projects-list">
+	
+	<?php if ($page->categories()->isNotEmpty()): ?>
+	<div class="projects-filters">
+		<?php foreach ($page->categories()->split(',') as $key => $c): ?>
+			<h2 data-filter="<?= tagslug($c) ?>"><?= $c ?></h2>
+		<?php endforeach ?>
+	</div>
+	<?php endif ?>
 
-	<?php foreach ($page->categories()->split(',') as $key => $c): ?>
-
-		<div class="projects-filters">
-			<h2><?= $c.' :' ?></h2>
-		</div>
-
-	<?php foreach ($page->children()->visible()->filterBy('categories', $c, ',') as $key => $project): ?>
+	<?php foreach ($page->children()->visible() as $key => $project): ?>
 
 		<?php if($featured = $project->featured()->toFile()): ?>
 
@@ -42,8 +44,6 @@
 			</div>
 
 		<?php endif ?>
-
-	<?php endforeach ?>
 
 	<?php endforeach ?>
 

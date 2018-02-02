@@ -51,16 +51,56 @@ fields:
     type:  date
     format: YYYY
     width: 1/4
+  mission:
+    label: Mission
+    type: text
+    width: 1/2
   client:
-    label: Client
+    label: Maîtrise d‘ouvrage
     type:  text
-    width: 1/4
+    width: 1/2
+  surface:
+    label: Surface
+    type: text
+    width: 1/2
+  perimetre:
+    label: Périmètre
+    type: text
+    width: 1/2
+  programme:
+    label: Programme
+    type: text
+    width: 1/2
+  partenaires:
+    label: Partenaires
+    type: text
+    width: 1/2
+  tarifEtude:
+    label: Montant de l’étude
+    type: text
+    width: 1/2
+  tarifTravaux:
+    label: Montant des travaux
+    type: text
+    width: 1/2
+  additionalFields:
+    label: Sections supplémentaires
+    type: structure
+    style: table
+    fields:
+      title:
+        label: Title
+        type: text
+        required: true
+      text:
+        label: Text
+        type: text
+        required: true
   categories:
     label: Categories
     type: checkboxes
     options: field
-    columns: 2
-    width: 3/4
+    columns: 3
     field:
       page: ../
       name: categories
@@ -72,10 +112,10 @@ fields:
     label: Description
     type: textarea
   text2:
-    label: Écologie de projet
+    label: Écologie de projet (CE CHAMP SERA SUPPRIMÉ, INSERER SON CONTENU DANS “DESCRIPTION”)
     type: textarea
   text3:
-    label: Économie de projet
+    label: Économie de projet (CE CHAMP SERA SUPPRIMÉ, INSERER SON CONTENU DANS “DESCRIPTION”)
     type: textarea
   medias: 
     label: Images

@@ -16,20 +16,28 @@ div#page-panel
 			if $page->enddate()->isNotEmpty() && $page->date('Y', 'enddate') && $page->date('Y', 'startdate') != $page->date('Y', 'enddate')
 				!=' – '.$page->date('Y', 'enddate')
 		div.project-infos
+			div.project-card
+				if $page->mission()->isNotEmpty()
+					div!="<strong>Mission : </strong> ".$page->mission()->html()
+				if $page->surface()->isNotEmpty()
+					div!="<strong>Surface : </strong> ".$page->surface()->html()
+				if $page->perimetre()->isNotEmpty()
+					div!="<strong>Périmètre : </strong> ".$page->perimetre()->html()
+				if $page->programme()->isNotEmpty()
+					div!="<strong>Programme : </strong> ".$page->programme()->html()
+				if $page->client()->isNotEmpty()
+					div!="<strong>Maîtrise d‘ouvrage : </strong> ".$page->client()->html()
+				if $page->tarifEtude()->isNotEmpty()
+					div!="<strong>Montant de l‘étude : </strong> ".$page->tarifEtude()->html()
+				if $page->tarifTravaux()->isNotEmpty()
+					div!="<strong>Montant des travaux : </strong> ".$page->tarifTravaux()->html()
+				if $page->additionalFields()->isNotEmpty()
+					each $field in $page->additionalFields()->toStructure()
+						div!="<strong>".$field->title()->html()." : </strong> ".$field->text()->html()
 			if $page->text()->isNotEmpty()
-				!=$page->text()->kt()
-			if $page->client()->isNotEmpty()
-				!=' '.$page->client()->html()
+				div.project-description!=$page->text()->kt()
 			if $page->place()->isNotEmpty()
-				!='• '.$page->place()->html().' '
-		if $page->text2()->isNotEmpty()
-			div.additional-infos
-				h2="Écologie de projet"
-				!=$page->text2()->kt()
-		if $page->text3()->isNotEmpty()
-			div.additional-infos
-				h2="Économie de projet"
-				!=$page->text3()->kt()
+				div.project-place!='• '.$page->place()->html().' '
 		div.project-medias
 			each $image in $page->medias()->toStructure()
 				if $image = $image->toFile()

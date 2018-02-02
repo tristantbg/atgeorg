@@ -1,4 +1,6 @@
-# Kirby Enhanced Textarea v1.6 <a href="https://www.paypal.me/medienbaecker"><img width="125" src="https://cloud.githubusercontent.com/assets/7975568/26115669/fb7041b0-3a60-11e7-8480-d1d5c303717c.png" alt="Buy me a beer"></a>
+# Kirby Enhanced Textarea v1.7.1 <a href="https://www.paypal.me/medienbaecker"><img width="125" src="https://cloud.githubusercontent.com/assets/7975568/26115669/fb7041b0-3a60-11e7-8480-d1d5c303717c.png" alt="Buy me a beer"></a>
+
+**(This field is no longer actively developed. Please use its successor [Kirby SimpleMDE](https://github.com/medienbaecker/kirby-simplemde) instead.)**
 
 This textarea extends the built-in textarea without reinventing the wheel. Handy and customizable headline functions, intelligent list buttons and a custom page selector make editing textareas a breeze.
 
@@ -38,21 +40,22 @@ c::set('textarea.includedKirbyTags', array("image", "link"));
 
 ### Buttons
 
-You can globally define default buttons for any textarea on your site by setting the `textarea.buttons` variable in your `config.php`. By default the buttons `h2` (headline 2), `h3` (headline 3), `bold`, `italic`, `ulist` (unordered list), `olist` (ordered list), `link`, `page` and `email` are displayed. There are also buttons for `blockquote`, `h1`, `h4`, `h5` and `h6` you can use.
+You can globally define default buttons for any textarea on your site by setting the `textarea.buttons` variable in your `config.php`. By default the buttons `h2` (headline 2), `h3` (headline 3), `bold`, `italic`, `ulist` (unordered list), `olist` (ordered list), `link`, `page` and `email` are displayed. There are also buttons for `strikethrough`, `blockquote`, `h1`, `h4`, `h5` and `h6` you can use.
 
-````
+```
 c::set('textarea.buttons', array(
-  "h1"
+  "h1",
+  "strikethrough",
   "blockquote",
   "link",
   "page"
 ));
-````
+```
 
 
 If you want to override this for a single field just use `buttons:` as you would with the built-in textarea:
 
-````
+```
 test:
   type: textarea
   buttons:
@@ -61,4 +64,4 @@ test:
     - bold
     - olist
     - link
-````
+```

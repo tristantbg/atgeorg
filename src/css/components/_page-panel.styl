@@ -6,8 +6,9 @@
 	width 50%
 	height 100%
 	padding $padding
-	background $secondary
-	color $primary
+	background $primary
+	// color $primary
+	filter: drop-shadow(0 0 8px alpha($secondary, 0.2))
 	transform translateX(100%) translateZ(0)
 	overflow-y scroll
 	scroll-behavior smooth
@@ -43,7 +44,7 @@
 
 body.page-panel
 	header, #container
-		transform translateX(-50vw) translateZ(0)
+		// transform translateX(-50vw) translateZ(0)
 	#page-panel
 		transform translateZ(0)
 	#page-panel-close

@@ -109,8 +109,11 @@ section
 			width 55%
 			margin 0 0 0 45%
 		.projects-filters
+			span(1)
 			margin-bottom 1em
-			h2
+			&:not(:first-child)
+				margin-top '1em - %s' % ($padding)
+			h2[data-filter]
 				cursor pointer
 				&.active::before
 					content '\2022\00a0'

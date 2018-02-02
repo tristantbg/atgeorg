@@ -3,6 +3,6 @@
   "description": "Enhanced textarea field for Kirby CMS with multiple added buttons",
   "author": "Thomas Günther",
   "license": "MIT",
-  "version": "1.6",
+  "version": "1.7.2",
   "type": "kirby-field"
 }
