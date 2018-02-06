@@ -60,7 +60,7 @@
 	echo js('assets/js/vendor/modernizr.min.js');
 	?>
 	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>window.jQuery || document.write('<script src="<?= url('assets/js/vendor/jquery.min.js') ?>">\x3C/script>')</script>
 
 	<?php if(!$site->customcss()->empty()): ?>
