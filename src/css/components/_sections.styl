@@ -110,14 +110,16 @@ section
 			margin 0 0 0 45%
 		.projects-filters
 			span(1)
-			margin-bottom 1em
+			margin-bottom ($padding - 0.5)
 			&:not(:first-child)
-				margin-top '1em - %s' % ($padding)
+				margin-top 'calc(1em - %s)' % ($padding)
 			h2[data-filter]
 				cursor pointer
 				&.active::before
 					content '\2022\00a0'
-		.projects-list
+		.projects-list, .project-category, .project-in-category
+			span(1)
+		.project-category
 			span(1)
 		.project-item
 			span(1/4)
