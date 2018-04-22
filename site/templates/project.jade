@@ -25,6 +25,8 @@ div#page-panel
 					div!="<strong>Périmètre : </strong> ".$page->perimetre()->html()
 				if $page->programme()->isNotEmpty()
 					div!="<strong>Programme : </strong> ".$page->programme()->html()
+				if $page->partenaires()->isNotEmpty()
+					div!="<strong>Partenaires : </strong> ".$page->partenaires()->html()
 				if $page->client()->isNotEmpty()
 					div!="<strong>Maîtrise d‘ouvrage : </strong> ".$page->client()->html()
 				if $page->tarifEtude()->isNotEmpty()
