@@ -111,12 +111,6 @@ fields:
   text:
     label: Description
     type: textarea
-  text2:
-    label: Écologie de projet (CE CHAMP SERA SUPPRIMÉ, INSERER SON CONTENU DANS “DESCRIPTION”)
-    type: textarea
-  text3:
-    label: Économie de projet (CE CHAMP SERA SUPPRIMÉ, INSERER SON CONTENU DANS “DESCRIPTION”)
-    type: textarea
   medias: 
     label: Images
     type: images
