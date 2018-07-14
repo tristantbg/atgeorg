@@ -1,3 +1,1 @@
-<div class="lead">
-	<?= $page->text()->kt() ?>
-</div>
+<?= $page->text()->kt() ?>

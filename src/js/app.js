@@ -14,7 +14,7 @@ var width = $(window).width(),
   $mouseNav,
   refreshTimeout,
   resetScroll,
-  $root = '/ateliergeorges/';
+  $root = '/';
 
 var app = {
   init: function() {
@@ -102,11 +102,11 @@ var app = {
         elems.not('.filter-' + filter).addClass('disabled');
       }
     });
-    $("section[data-type='projects'] .project-item a").bind('touchstart', function(event) {
-      $(this).find('.project-infos')[0].style.opacity = 1;
-    }).bind('touchend', function(event) {
-      $(this).find('.project-infos')[0].style.opacity = 0;
-    });
+    // $("section[data-type='projects'] .project-item a").bind('touchstart', function(event) {
+    //   $(this).find('.project-infos')[0].style.opacity = 1;
+    // }).bind('touchend', function(event) {
+    //   $(this).find('.project-infos')[0].style.opacity = 0;
+    // });
   },
   projectsLinks: function() {
     $(".project-link, [data-target]").click(function(event) {

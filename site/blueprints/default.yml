@@ -18,7 +18,7 @@ fields:
     default: 0
   text:
     label: Text
-    type:  textarea
+    type:  simplemde
   headerOptions:
     label: Header Options
     type: tabs
