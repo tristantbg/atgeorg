@@ -71,31 +71,35 @@ kirbytext::$tags['image'] = array(
       ));
 
     };
-    
+
 
     // image builder
     $_image = function($class) use($tag, $url, $alt, $title, $file) {
-    	$srcset = '';
-		for ($i = 600; $i <= 1800; $i += 300) {
-			$srcset .= $file->width($i)->url() . ' ' . $i . 'w,';
-		}
-      return html::img($url, array(
-      	'src' => $file->width(1000)->url(),
-        'width'  => '100%',
-        'height' => 'auto',
-        'class'  => 'lazyimg lazyload',
-        'srcset' => 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-        'data-src' => $file->width(1000)->url(),
-        'data-srcset' => $srcset,
-        'data-sizes'  => 'auto',
-        'data-optimumx'  => '1.3',
-        'title'  => $title,
-        'alt'    => $alt
-      ));
+      if ($file && !is_bool($file)) {
+      	$srcset = '';
+    		for ($i = 600; $i <= 1800; $i += 300) {
+    			$srcset .= $file->width($i)->url() . ' ' . $i . 'w,';
+    		}
+        return html::img($url, array(
+        	'src' => $file->width(1000)->url(),
+          'width'  => '100%',
+          'height' => 'auto',
+          'class'  => 'lazyimg lazyload',
+          'srcset' => 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+          'data-src' => $file->width(1000)->url(),
+          'data-srcset' => $srcset,
+          'data-sizes'  => 'auto',
+          'data-optimumx'  => '1.3',
+          'title'  => $title,
+          'alt'    => $alt
+        ));
+      }
     };
 
+    if ($file && !is_bool($file)) {
       $class = trim($tag->attr('class') . ' ' . $tag->attr('imgclass'));
       return $_link($_image($class)).'<noscript><img src="'.$file->width(1000)->url().'" alt="'.$alt.'" width="100%" height="auto" /></noscript>';
+    }
 
   }
 );
