@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "flickity": "^2.0.8",
-    "fullpage.js": "^2.9.4",
+    "fullpage.js": "^4.0.5",
     "lazysizes": "^4.0.0-rc3",
     "normalize.css": "^7.0.0",
     "rupture": "^0.7.1",
